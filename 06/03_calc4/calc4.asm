@@ -37,9 +37,9 @@ out=$12
     lda num0
     pha
 
-    lda #>ret-1 ; return address
+    lda #>(ret-1) ; return address
     pha
-    lda #<ret-1
+    lda #<(ret-1)
     pha
 
     jmp (opaddr)
