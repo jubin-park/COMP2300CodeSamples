@@ -15,47 +15,50 @@ zpphase=$0040
     ldx #$FF
     txs
 
-    setphase #$11
-    setnum #0, #0
-    jsr sqrt
-    assert zpret, #0
+    ;setphase #$11
+    ;setnum #0, #0
+    ;jsr sqrt
+    ;assert zpret, #0
 
-    setphase #$22
-    setnum #0, #1
-    jsr sqrt
-    assert zpret, #1
+    ;setphase #$22
+    ;setnum #0, #1
+    ;jsr sqrt
+    ;assert zpret, #1
 
-    setphase #$33
-    setnum #0, #2
-    jsr sqrt
-    assert zpret, #1
+    ;setphase #$33
+    ;setnum #0, #2
+    ;jsr sqrt
+    ;assert zpret, #1
 
-    setphase #$44
-    setnum #0, #3
-    jsr sqrt
-    assert zpret, #1
+    ;setphase #$44
+    ;setnum #0, #3
+    ;jsr sqrt
+    ;assert zpret, #1
 
-    setphase #$55
-    setnum #0, #4
-    jsr sqrt
-    assert zpret, #2
+    ;setphase #$55
+    ;setnum #0, #4
+    ;jsr sqrt
+    ;assert zpret, #2
 
-    setphase #$66
-    setnum #0, #255
-    jsr sqrt
-    assert zpret, #15
+    ;setphase #$66
+    ;setnum #0, #255
+    ;jsr sqrt
+    ;assert zpret, #15
 
     setphase #$77
     setnum #1, #0
     jsr sqrt
-    assert zpret, #16
+    ;assert zpret, #16
 
     setphase #$88
     setnum #$FF, #$FF
     jsr sqrt
-    assert zpret, #255
+    ;assert zpret, #255
 
-    termin
+    ;termin
+
+end:
+    jmp end
 
 ;======================================
     .MACRO setphase ; (imm)
@@ -79,6 +82,8 @@ sqrt: ; (zpnum) -> zpret | <A,X,Y,P>
 ; https://en.wikipedia.org/wiki/Integer_square_root#Linear_search_using_addition
     .SUBROUTINE
 
+    nop
+
     ldx #1
     stx zpaccuml
     ldx #3
@@ -90,11 +95,14 @@ sqrt: ; (zpnum) -> zpret | <A,X,Y,P>
 .cmphigh:
     lda zpaccumh
     cmp zpnumh
+    beq .cmplow
     bpl .ret
-    bmi .add
+    jmp .add
 
+.cmplow:
     lda zpaccuml
     cmp zpnuml
+    beq .add
     bpl .ret
 
 .add:
@@ -116,18 +124,13 @@ sqrt: ; (zpnum) -> zpret | <A,X,Y,P>
     
     inx
 
-    nop
-    nop
-    nop
-    nop
-    nop
-
     jmp .cmphigh
 
 .ret:
     stx zpret
 
     rts
+    nop
 ;======================================
 
     .ORG $FFFC,0

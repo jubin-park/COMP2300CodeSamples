@@ -1,0 +1,1 @@
+dasm sqrt.asm -f3 -o"sqrt.bin" -S -DPOBS && Assignment1.exe sqrt.bin
